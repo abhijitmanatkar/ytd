@@ -1,0 +1,56 @@
+<!doctype html>
+
+<head>
+    <title>YTD</title>
+    <meta name="viewport" content="width=screen-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+</head>
+
+<body style="background-color:#d62927;">
+    <div class="jumbotron text-center text-light bg-transparent" style="margin-bottom:0%; padding-top:10%; padding-bottom:2%;">
+        <h1 style="font-size:6em;">YouTube Downloader</h1>
+    </div>
+
+    <div class="container text-center text-light bg-transparent" style="padding-top:2%; padding-bottom:5%; margin-bottom:0%;">
+        <form method="post">
+            <div class="form-row">
+                <div class="col-11">
+                <input type="text" name="link" class="form-control" placeholder="https://www.youtube.com/watch?v=8mn-FFjIbo8"></input>
+                </div>
+                <div class="col-1">
+                <button class="btn btn-success" type="submit" name="submit">Download</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="container-fluid text-light bg-transparent">
+        {% if vid != None %}
+            <h3>{{ vid.title }}</h3>
+            <h4>Duration: {{ fd(vid.length) }}</h4>
+            <table class="table table-borderless text-light">
+                <thead>
+                    <tr>
+                        <th>Resolution</th>
+                        <th>Format</th>
+                        <th>File Size</th>
+                        <th>Get</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in vid.streams %}
+                        <tr>
+                            <td>{{ s.resolution }}</td>
+                            <td>{{ s.extension }}</td>
+                            <td>{{ fs(s.get_filesize()) }}</td>
+                            <td><a target="_blank" href="{{ s.url }}" download>Get</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+</body>
